@@ -1,6 +1,9 @@
 import turtle
 import random
 
+score = 0 
+
+
 snake = []
 
 def partcreation():
@@ -13,8 +16,8 @@ def partcreation():
         snakepart.goto(0, 0)
     else:
         snakepart.goto(snake[-1].xcor(), snake[-1].ycor())
-    for snakepart in snake:
-        snakepart.speed(len(snake))
+    for snakeparttotal in snake:
+        snakeparttotal.speed(len(snake))
     snake.append(snakepart)
 
 def right():
@@ -40,13 +43,14 @@ def movesnake():
         snake[i].goto(snake[i-1].xcor(), snake[i-1].ycor())
     snake[0].forward(20)
 
-def eatfruit(fruit):
+def eatfruit(fruit,score):
     fruit.goto(random.randint(-150, 150), random.randint(-150, 150))
+    score += 1
     partcreation()
 
 def snakecolision(snake):
     for snakepart in snake[1:]:
-        if snake[0].distance(snakepart) < 10:
+        if snake[0].distance(snakepart) < 20:
             return True
 
 my_screen = turtle.Screen()
@@ -66,15 +70,14 @@ fruit = createfruit()
 while True:
 
     if snake[0].distance(fruit)<20:
-        eatfruit(fruit)
+        eatfruit(fruit,score)
     movesnake()
     if snakecolision(snake):
+        print("Your Score is :  ", score)
         break
     if snake[0].xcor()>170 or snake[0].xcor()<-170 or snake[0].ycor()>170 or snake[0].ycor()<-170:
+        print("Your Score is :  ", score)
         break
-    for part in snake[1:]:
-        if snake[0].distance(part) < 20:
-            break
     
 
 my_screen.exitonclick()
